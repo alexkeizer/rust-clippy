@@ -18,5 +18,11 @@ error: called `.bytes().nth()` on a `str`
 LL |     let _ = s[..].bytes().nth(3);
    |             ^^^^^^^^^^^^^^^^^^^^ help: try: `s[..].as_bytes().get(3)`
 
-error: aborting due to 3 previous errors
+error: called `.bytes().nth()` on a `String`
+  --> $DIR/bytes_nth.rs:11:18
+   |
+LL |     let _x: u8 = s.bytes().nth(3).unwrap();
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^ help: try: `s.as_bytes()[3]`
+
+error: aborting due to 4 previous errors
 

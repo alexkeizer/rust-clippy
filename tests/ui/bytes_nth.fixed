@@ -8,4 +8,5 @@ fn main() {
     let _ = s.as_bytes().get(3);
     let _ = &s.as_bytes().get(3);
     let _ = s[..].as_bytes().get(3);
+    let _x: u8 = s.as_bytes()[3];
 }
