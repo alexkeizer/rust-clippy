@@ -3641,7 +3641,7 @@ impl Methods {
                     }
                 },
                 ("nth", [n_arg]) => match method_call(recv) {
-                    Some(("bytes", recv2, [], _, _)) => bytes_nth::check(cx, expr, recv2, n_arg),
+                    Some(("bytes", recv2, [], span, _)) => bytes_nth::check(cx, expr, recv2, n_arg, span),
                     Some(("cloned", recv2, [], _, _)) => iter_overeager_cloned::check(cx, expr, recv, recv2, false, false),
                     Some(("iter", recv2, [], _, _)) => iter_nth::check(cx, expr, recv2, recv, n_arg, false),
                     Some(("iter_mut", recv2, [], _, _)) => iter_nth::check(cx, expr, recv2, recv, n_arg, true),
@@ -3743,6 +3743,11 @@ impl Methods {
                         },
                         Some(("or", recv, [or_arg], or_span, _)) => {
                             or_then_unwrap::check(cx, expr, recv, or_arg, or_span);
+                        },
+                        Some(("nth", recv2, [n_arg], _, _)) => {
+                            if let Some(("bytes", recv3, [], _, _)) = method_call(recv2) {
+                                bytes_nth::check_unwrap(cx, expr, recv3, n_arg)
+                            }
                         },
                         _ => {},
                     }
